@@ -31,7 +31,7 @@ Example Playbook
 ----------------
 
 
-    - hosts: epmons
+    - hosts: epmon
       roles:
          - { role: opentelekomcloud.apimon.epmon }
 

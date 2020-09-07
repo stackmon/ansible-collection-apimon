@@ -31,7 +31,7 @@ Example Playbook
 ----------------
 
 
-    - hosts: schedulers
+    - hosts: scheduler
       roles:
          - { role: opentelekomcloud.apimon.scheduler }
 

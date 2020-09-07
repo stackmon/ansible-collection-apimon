@@ -31,7 +31,7 @@ Example Playbook
 ----------------
 
 
-    - hosts: executors
+    - hosts: executor
       roles:
          - { role: opentelekomcloud.apimon.executor }
 

@@ -11,14 +11,14 @@ None.
 Role Variables
 --------------
 
-		# defaults file for executor
+    # defaults file for executor
     executor_os_group: apimon
     executor_os_user: apimon
     executor_systemd_service_name: apimon_executor.service
     executor_systemd_unit_path: "{{ ('/etc/systemd/system/' + executor_systemd_service_name ) }}"
     executor_config_dir: /etc/apimon
+    executor_config:
     executor_image: otcinfra/apimon
-    executor_apimon_config:
     scheduler_image: otcinfra/apimon
 
 

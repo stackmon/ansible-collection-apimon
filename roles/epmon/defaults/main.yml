@@ -1,0 +1,12 @@
+---
+# defaults file for epmon
+
+epmon_systemd_service_name: apimon_epmon.service
+epmon_systemd_unit_path: "{{ ('/etc/systemd/system/' + epmon_systemd_service_name ) }}"
+epmon_os_user: apimon
+epmon_os_group: apimon
+epmon_config_dir: /etc/apimon
+epmon_config:
+epmon_image: otcinfra/apimon
+scheduler_image: otcinfra/apimon
+

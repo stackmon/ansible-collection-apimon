@@ -1,0 +1,10 @@
+---
+# handlers file for epmon
+- name: restart epmon
+  become: true
+  systemd:
+    name: "{{ epmon_systemd_service_name }}"
+    enabled: true
+    state: restarted
+    daemon_reload: true
+

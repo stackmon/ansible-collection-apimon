@@ -1,0 +1,67 @@
+---
+# tasks file for epmon
+
+- name: Include Fedora variables
+  include_vars: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+- name: Install required packages
+  become: true
+  package:
+    state: present
+    name: "{{ item }}"
+  with_items: "{{ packages }}"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- include_tasks: firewall.yml
+
+- name: Create epmon group
+  become: yes
+  group:
+    name: "{{ epmon_os_group }}"
+    state: present
+
+- name: Create epmon user
+  become: true
+  user:
+    name: "{{ epmon_os_user }}"
+    group: "{{ epmon_os_group }}"
+    state: present
+
+- name: Write epmon Systemd unit file
+  become: true
+  template:
+    src: apimon_epmon.service
+    dest: "{{ epmon_systemd_unit_path }}"
+
+- name: Create required directories
+  become: true
+  file:
+    dest: "{{ item.dest }}"
+    state: directory
+    owner: "{{ epmon_os_user }}"
+    group: "{{ epmon_os_group }}"
+    recurse: true
+  loop:
+    - {dest: "{{ epmon_config_dir }}"}
+
+- name: Write env
+  become: true
+  become_user: "{{ epmon_os_user }}"
+  template:
+    src: env
+    dest: "{{ epmon_config_dir }}/env"
+  notify:
+    - restart epmon
+
+- name: Write epmon config
+  become: true
+  become_user: "{{ epmon_os_user }}"
+  template:
+    src: apimon.yaml
+    dest: "{{ epmon_config_dir }}/apimon.yaml"
+  notify:
+    - restart epmon
+

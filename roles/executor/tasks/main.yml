@@ -1,0 +1,70 @@
+---
+# tasks file for executor
+
+- name: Include Fedora variables
+  include_vars: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+- name: Install required packages
+  become: true
+  package:
+    state: present
+    name: "{{ item }}"
+  with_items: "{{ packages }}"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- include_tasks: firewall.yml
+
+- name: Create executor group
+  become: yes
+  group:
+    name: "{{ executor_os_group }}"
+    state: present
+
+- name: Create executor user
+  become: true
+  user:
+    name: "{{ executor_os_user }}"
+    group: "{{ executor_os_group }}"
+    state: present
+
+- name: Write Executor Systemd unit file
+  become: true
+  template:
+    src: apimon_executor.service
+    dest: "{{ executor_systemd_unit_path }}"
+
+- name: Create required directories
+  become: true
+  file:
+    dest: "{{ item.dest }}"
+    state: directory
+    owner: "{{ executor_os_user }}"
+    group: "{{ executor_os_group }}"
+    recurse: true
+  loop:
+    - {dest: "/var/log/apimon"}
+    - {dest: "/var/lib/apimon"}
+    - {dest: "{{ executor_config_dir }}"}
+    - {dest: "/home/{{ executor_os_user }}/tmp"}
+
+- name: Write env
+  become: true
+  become_user: "{{ executor_os_user }}"
+  template:
+    src: env
+    dest: "{{ executor_config_dir }}/env"
+  notify:
+    - restart executor
+
+- name: Write executor config
+  become: true
+  become_user: "{{ executor_os_user }}"
+  template:
+    src: apimon.yaml
+    dest: "{{ executor_config_dir }}/apimon.yaml"
+  notify:
+    - restart executor
+

@@ -1,0 +1,31 @@
+[Unit]
+Description=Apimon Scheduler container
+Wants=syslog.service
+
+[Service]
+Type=simple
+Restart=always
+TimeoutSec=300s
+User=apimon
+Group=apimon
+EnvironmentFile=/etc/apimon/env
+
+ExecStartPre=-/usr/bin/podman system migrate
+ExecStartPre=-/usr/bin/podman pull ${APIMON_SCHEDULER_IMAGE}
+ExecStartPre=-/usr/bin/podman rm "apimon_scheduler"
+
+ExecStart=/usr/bin/podman run \
+  --name "apimon_scheduler" \
+  -v {{ executor_config_dir }}:/etc/apimon:ro \
+  -v /var/lib/apimon:/var/lib/apimon:rw,Z \
+  --tmpfs /var/log/apimon,size=787448k \
+  ${APIMON_SCHEDULER_IMAGE} scheduler
+
+ExecReload=-/usr/bin/podman stop "apimon_scheduler"
+ExecReload=-/usr/bin/podman rm "apimon_scheduler"
+
+ExecStop=/usr/bin/podman stop -t 10 "apimon_scheduler"
+
+[Install]
+WantedBy=multi-user.target
+

@@ -59,6 +59,15 @@
   notify:
     - restart executor
 
+- name: Write logging.conf
+  become: true
+  become_user: "{{ executor_os_user }}"
+  template:
+    src: logging.conf
+    dest: "{{ executor_config_dir }}/logging.conf"
+  notify:
+    - restart executor
+
 - name: Write executor config
   become: true
   become_user: "{{ executor_os_user }}"

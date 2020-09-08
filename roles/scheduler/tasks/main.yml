@@ -30,7 +30,7 @@
     group: "{{ scheduler_os_group }}"
     state: present
 
-- name: Write Executor Systemd unit file
+- name: Write Scheduler Systemd unit file
   become: true
   template:
     src: apimon_scheduler.service
@@ -56,6 +56,15 @@
   template:
     src: env_scheduler
     dest: "{{ scheduler_config_dir }}/env_scheduler"
+  notify:
+    - restart scheduler
+
+- name: Write logging.conf
+  become: true
+  become_user: "{{ scheduler_os_user }}"
+  template:
+    src: logging.conf
+    dest: "{{ scheduler_config_dir }}/logging.conf"
   notify:
     - restart scheduler
 

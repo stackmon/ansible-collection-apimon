@@ -17,6 +17,7 @@ ExecStartPre=-/usr/bin/podman pull ${EPMON_IMAGE}
 
 ExecStart=/usr/bin/podman run \
   --name "apimon_epmon" \
+  --add-host=telegraf:{{ ansible_default_ipv4.address }} \
   -v {{ epmon_config_dir }}:/etc/apimon:ro \
   --tmpfs /var/log/apimon \
   ${EPMON_IMAGE} epmon

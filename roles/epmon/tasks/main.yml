@@ -56,6 +56,15 @@
   notify:
     - restart epmon
 
+- name: Write logging.conf
+  become: true
+  become_user: "{{ epmon_os_user }}"
+  template:
+    src: logging.conf
+    dest: "{{ epmon_config_dir }}/logging.conf"
+  notify:
+    - restart epmon
+
 - name: Write epmon config
   become: true
   become_user: "{{ epmon_os_user }}"

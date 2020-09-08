@@ -54,8 +54,8 @@
   become: true
   become_user: "{{ executor_os_user }}"
   template:
-    src: env
-    dest: "{{ executor_config_dir }}/env"
+    src: env_executor
+    dest: "{{ executor_config_dir }}/env_executor"
   notify:
     - restart executor
 

@@ -8,18 +8,18 @@ Restart=always
 TimeoutSec=30s
 User=apimon
 Group=apimon
-EnvironmentFile=/etc/apimon/env
+EnvironmentFile=/etc/apimon/env_epmon
 
 ExecStartPre=-/usr/bin/podman system migrate
 ExecStartPre=-/usr/bin/podman system migrate
 ExecStartPre=-/usr/bin/podman rm "apimon_epmon"
-ExecStartPre=-/usr/bin/podman pull ${APIMON_IMAGE}
+ExecStartPre=-/usr/bin/podman pull ${EPMON_IMAGE}
 
 ExecStart=/usr/bin/podman run \
   --name "apimon_epmon" \
   -v {{ epmon_config_dir }}:/etc/apimon:ro \
   --tmpfs /var/log/apimon \
-  ${APIMON_IMAGE} epmon
+  ${EPMON_IMAGE} epmon
 
 ExecReload=/usr/bin/podman kill -s SIGHUP apimon_epmon
 

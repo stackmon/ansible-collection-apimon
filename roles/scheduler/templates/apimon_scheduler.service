@@ -8,10 +8,10 @@ Restart=always
 TimeoutSec=300s
 User=apimon
 Group=apimon
-EnvironmentFile=/etc/apimon/env
+EnvironmentFile=/etc/apimon/env_scheduler
 
 ExecStartPre=-/usr/bin/podman system migrate
-ExecStartPre=-/usr/bin/podman pull ${APIMON_SCHEDULER_IMAGE}
+ExecStartPre=-/usr/bin/podman pull ${SCHEDULER_IMAGE}
 ExecStartPre=-/usr/bin/podman rm "apimon_scheduler"
 
 ExecStart=/usr/bin/podman run \
@@ -19,7 +19,7 @@ ExecStart=/usr/bin/podman run \
   -v {{ executor_config_dir }}:/etc/apimon:ro \
   -v /var/lib/apimon:/var/lib/apimon:rw,Z \
   --tmpfs /var/log/apimon,size=787448k \
-  ${APIMON_SCHEDULER_IMAGE} scheduler
+  ${SCHEDULER_IMAGE} scheduler
 
 ExecReload=-/usr/bin/podman stop "apimon_scheduler"
 ExecReload=-/usr/bin/podman rm "apimon_scheduler"

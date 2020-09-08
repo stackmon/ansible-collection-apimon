@@ -51,8 +51,8 @@
   become: true
   become_user: "{{ epmon_os_user }}"
   template:
-    src: env
-    dest: "{{ epmon_config_dir }}/env"
+    src: env_epmon
+    dest: "{{ epmon_config_dir }}/env_epmon"
   notify:
     - restart epmon
 

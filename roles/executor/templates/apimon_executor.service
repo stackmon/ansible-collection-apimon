@@ -8,10 +8,10 @@ Restart=always
 TimeoutSec=600s
 User=apimon
 Group=apimon
-EnvironmentFile=/etc/apimon/env
+EnvironmentFile=/etc/apimon/env_executor
 
 ExecStartPre=-/usr/bin/podman system migrate
-ExecStartPre=-/usr/bin/podman pull ${APIMON_IMAGE}
+ExecStartPre=-/usr/bin/podman pull ${EXECUTOR_IMAGE}
 ExecStartPre=-/usr/bin/podman rm "apimon_executor"
 
 ExecStart=/usr/bin/podman run \
@@ -23,7 +23,7 @@ ExecStart=/usr/bin/podman run \
   --tmpfs /tmp:rw,size=787448k \
   -v /var/log/apimon:/var/log/apimon:rw,Z \
   -v /home/{{ executor_os_user }}/tmp:/root/.ansible:rw,z \
-  ${APIMON_IMAGE} executor
+  ${EXECUTOR_IMAGE} executor
 
 ExecReload=-/usr/bin/podman stop "apimon_executor"
 ExecReload=-/usr/bin/podman rm "apimon_executor"

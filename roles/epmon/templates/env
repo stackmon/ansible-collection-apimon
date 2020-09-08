@@ -1,2 +1,0 @@
-APIMON_IMAGE={{ epmon_image }}
-APIMON_SCHEDULER_IMAGE={{ scheduler_image }}

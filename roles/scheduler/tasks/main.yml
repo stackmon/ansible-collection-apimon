@@ -54,8 +54,8 @@
   become: true
   become_user: "{{ scheduler_os_user }}"
   template:
-    src: env
-    dest: "{{ scheduler_config_dir }}/env"
+    src: env_scheduler
+    dest: "{{ scheduler_config_dir }}/env_scheduler"
   notify:
     - restart scheduler
 

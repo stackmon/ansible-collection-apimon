@@ -9,3 +9,4 @@ rstcheck
 ruamel.yaml
 # galaxy-importer
 tox
+importlib-metadata<2.0.0 ; python_version < '3.8'

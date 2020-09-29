@@ -21,8 +21,7 @@ ExecStart=/usr/bin/podman run \
   --tmpfs /var/log/apimon,size=787448k \
   ${SCHEDULER_IMAGE} scheduler
 
-ExecReload=-/usr/bin/podman stop "apimon_scheduler"
-ExecReload=-/usr/bin/podman rm "apimon_scheduler"
+ExecReload=/usr/bin/podman kill -s SIGHUP apimon_scheduler
 
 ExecStop=/usr/bin/podman stop -t 10 "apimon_scheduler"
 

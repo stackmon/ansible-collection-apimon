@@ -25,8 +25,7 @@ ExecStart=/usr/bin/podman run \
   -v /home/{{ executor_os_user }}/tmp:/root/.ansible:rw,z \
   ${EXECUTOR_IMAGE} executor
 
-ExecReload=-/usr/bin/podman stop "apimon_executor"
-ExecReload=-/usr/bin/podman rm "apimon_executor"
+ExecReload=/usr/bin/podman kill -s SIGHUP apimon_executor
 
 ExecStop=/usr/bin/podman stop -t 10 "apimon_executor"
 

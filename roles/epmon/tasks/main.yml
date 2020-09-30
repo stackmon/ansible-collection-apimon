@@ -69,7 +69,7 @@
   become: true
   become_user: "{{ epmon_os_user }}"
   template:
-    src: apimon.yaml
+    src: apimon.yaml.j2
     dest: "{{ epmon_config_dir }}/apimon.yaml"
   notify:
     - restart epmon

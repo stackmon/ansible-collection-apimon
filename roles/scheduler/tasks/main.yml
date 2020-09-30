@@ -72,7 +72,7 @@
   become: true
   become_user: "{{ scheduler_os_user }}"
   template:
-    src: apimon.yaml
+    src: apimon.yaml.j2
     dest: "{{ scheduler_config_dir }}/apimon.yaml"
   notify:
     - restart scheduler

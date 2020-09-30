@@ -1,2 +1,2 @@
-# ansible-collection-template
-_CHANGEME_
+# ansible-collection-apimon
+Collection with apimon related content...TBD

@@ -1,0 +1,14 @@
+---
+# Playbook to install Scheduler
+#
+
+- name: Provision Scheduler
+  hosts: scheduler
+  become: true
+  gather_facts: true
+  serial: 1
+  roles:
+    - opentelekomcloud.common.server
+    - opentelekomcloud.apimon.scheduler
+  tasks:
+  tags: scheduler

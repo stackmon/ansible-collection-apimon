@@ -7,4 +7,3 @@
     name: firewalld
     enabled: yes
     state: started
-

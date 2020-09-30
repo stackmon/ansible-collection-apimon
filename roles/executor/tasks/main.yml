@@ -76,4 +76,3 @@
     dest: "{{ executor_config_dir }}/apimon.yaml"
   notify:
     - restart executor
-

@@ -73,4 +73,3 @@
     dest: "{{ epmon_config_dir }}/apimon.yaml"
   notify:
     - restart epmon
-

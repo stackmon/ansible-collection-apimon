@@ -1,78 +1,99 @@
 ---
 # tasks file for executor
 
-- name: Include Fedora variables
-  include_vars: fedora.yml
-  when: ansible_distribution == "Fedora"
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
 
 - name: Install required packages
   become: true
-  package:
+  ansible.builtin.package:
     state: present
     name: "{{ item }}"
-  with_items: "{{ packages }}"
+  loop: 
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
   register: task_result
   until: task_result is success
   retries: 5
 
-- include_tasks: firewall.yml
-
 - name: Create executor group
   become: yes
-  group:
+  ansible.builtin.group:
     name: "{{ executor_os_group }}"
     state: present
 
 - name: Create executor user
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
     state: present
 
-- name: Write Executor Systemd unit file
+- name: Write Executor SystemD unit file
   become: true
-  template:
-    src: apimon_executor.service
+  ansible.builtin.template:
+    src: "apimon-executor.service.j2"
     dest: "{{ executor_systemd_unit_path }}"
+  notify:
+    - Restart executor
 
 - name: Create required directories
   become: true
-  file:
+  ansible.builtin.file:
     dest: "{{ item.dest }}"
-    state: directory
+    state: "directory"
     owner: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
     recurse: true
   loop:
-    - {dest: "/var/log/apimon"}
-    - {dest: "/var/lib/apimon"}
     - {dest: "{{ executor_config_dir }}"}
+    - {dest: "/var/lib/apimon"}
+    # For home inside of container
     - {dest: "/home/{{ executor_os_user }}/tmp"}
+    # As /tmp
+    - {dest: "/tmp/apimon"}
 
 - name: Write env
   become: true
   become_user: "{{ executor_os_user }}"
-  template:
-    src: env_executor
+  ansible.builtin.template:
+    src: "env_executor"
     dest: "{{ executor_config_dir }}/env_executor"
   notify:
-    - restart executor
+    - Restart executor
 
 - name: Write logging.conf
   become: true
   become_user: "{{ executor_os_user }}"
-  template:
-    src: logging.conf
+  ansible.builtin.template:
+    src: "logging.conf"
     dest: "{{ executor_config_dir }}/logging.conf"
   notify:
-    - restart executor
+    - Restart executor
 
 - name: Write executor config
   become: true
   become_user: "{{ executor_os_user }}"
-  template:
-    src: apimon.yaml.j2
-    dest: "{{ executor_config_dir }}/apimon.yaml"
+  ansible.builtin.template:
+    src: "apimon.yaml.j2"
+    dest: "{{ executor_config_dir }}/{{ executor_config_file_name }}"
+  when:
+    - executor_config is defined and executor_config | length > 0
   notify:
-    - restart executor
+    - Restart executor
+
+- name: Write executor secure config
+  become: true
+  become_user: "{{ executor_os_user }}"
+  ansible.builtin.template:
+    src: "apimon_secure.yaml.j2"
+    dest: "{{ executor_config_dir }}/{{ executor_secure_config_file_name }}"
+  when:
+    - executor_secure_config is defined and executor_secure_config | length > 0
+  notify:
+    - Restart executor

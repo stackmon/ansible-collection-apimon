@@ -1,7 +1,7 @@
 ---
 namespace: opentelekomcloud
 name: apimon
-version: 0.1.0-dev1
+version: 0.1.0-dev2
 readme: README.md
 authors:
   - Artem Goncharov <artem.goncharov@gmail.com>

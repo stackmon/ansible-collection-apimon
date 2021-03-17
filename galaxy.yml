@@ -1,0 +1,36 @@
+---
+namespace: opentelekomcloud
+name: apimon
+version: 0.1.0-dev1
+readme: README.md
+authors:
+  - Artem Goncharov <artem.goncharov@gmail.com>
+  - Kristian Kucerak <kucerakk@gmail.com>
+
+description: Collection with APImon related content.
+license:
+  - Apache-2.0
+tags:
+  - cloud
+  - openstack
+  - opentelekomcloud
+dependencies:
+  "ansible.posix": ">0.1.1"
+repository: http://github.com/OpenTelekomCloud/ansible-collection-apimon
+documentation: http://docs.otc.t-systems.com
+homepage: https://open-telekom-cloud.com
+issues: http://github.com/OpenTelekomCloud/ansible-collection-apimon/issue/tracker
+build_ignore:
+  - '*.tar.gz'
+  - build_artifact/
+  - ci/
+  - galaxy.yml.in
+  - setup.cfg
+  - setup.py
+  - tools
+  - tox.ini
+  - .gitignore
+  - .gitreview
+  - .zuul.yaml
+  - .pytest_cache
+  - importer_result.json

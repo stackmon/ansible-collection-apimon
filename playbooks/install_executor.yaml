@@ -8,7 +8,5 @@
   gather_facts: true
   serial: 1
   roles:
-    - opentelekomcloud.common.server
     - opentelekomcloud.apimon.executor
-  tasks:
   tags: executor

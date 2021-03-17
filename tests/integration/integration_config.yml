@@ -1,0 +1,45 @@
+---
+epmon_config: |
+  secure: /etc/apimon/apimon_secure.yaml
+  log:
+    config: /etc/apimon/logging.conf
+  epmon:
+    socket: /tmp/epmon.socket
+    zone: test
+    clouds: []
+  metrics:
+    statsd:
+      host: localhost
+      port: 8125
+epmon_secure_config:
+  clouds: []
+
+scheduler_config: |
+  secure: /etc/apimon/apimon_secure.yaml
+  log:
+    config: /etc/apimon/logging.conf
+  epmon:
+    socket: /tmp/epmon.socket
+    zone: test
+    clouds: []
+  metrics:
+    statsd:
+      host: localhost
+      port: 8125
+scheduler_secure_config:
+  clouds: []
+
+executor_config: |
+  secure: /etc/apimon/apimon_secure.yaml
+  log:
+    config: /etc/apimon/logging.conf
+  epmon:
+    socket: /tmp/epmon.socket
+    zone: test
+    clouds: []
+  metrics:
+    statsd:
+      host: localhost
+      port: 8125
+executor_secure_config:
+  clouds: []

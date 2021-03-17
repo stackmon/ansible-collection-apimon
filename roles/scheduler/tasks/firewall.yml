@@ -1,9 +1,10 @@
 ---
 # Firewalld enablement
 
-- name: Enable firewalld
+- name: Allow gearman port
   become: true
-  systemd:
-    name: firewalld
-    enabled: yes
-    state: started
+  ansible.posix.firewalld:
+    state: "enabled"
+    port: "4730/tcp"
+    permanent: "yes"
+    immediate: "yes"

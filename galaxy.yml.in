@@ -14,6 +14,7 @@ tags:
   - openstack
   - opentelekomcloud
 dependencies:
+  "ansible.posix": ">0.1.1"
 repository: http://github.com/OpenTelekomCloud/ansible-collection-apimon
 documentation: http://docs.otc.t-systems.com
 homepage: https://open-telekom-cloud.com

@@ -1,0 +1,34 @@
+[Unit]
+Description=Apimon Executor container
+Wants=syslog.service
+
+[Service]
+Type=simple
+Restart=always
+TimeoutSec=600s
+User={{ executor_os_user }}
+Group={{ executor_os_group }}
+EnvironmentFile=/etc/apimon/env_executor
+
+ExecStartPre=-{{ container_runtime }} system migrate
+ExecStartPre=-{{ container_runtime }} pull ${EXECUTOR_IMAGE}
+ExecStartPre=-{{ container_runtime }} rm "{{ executor_container_name }}"
+
+ExecStart={{ container_runtime }} run \
+  --name "{{ executor_container_name }}" \
+  # important for the heartbeats
+  --hostname={{ ansible_hostname }} \
+  -v {{ executor_config_dir }}:/etc/apimon:ro \
+  -v /var/lib/apimon:/var/lib/apimon:rw,Z \
+  # We need more space in tmp than we want to keep in ram
+  -v /tmp/apimon:/tmp:rw,Z \
+  -v /home/{{ executor_os_user }}/tmp:/home/apimon:rw,z \
+  ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
+
+ExecReload={{ container_runtime }} kill -s SIGHUP {{ executor_container_name }}
+
+ExecStop={{ container_runtime }} stop -t 10 {{ executor_container_name }}
+
+[Install]
+WantedBy=multi-user.target
+

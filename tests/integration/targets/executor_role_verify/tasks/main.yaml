@@ -1,0 +1,17 @@
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Check main config
+  ansible.builtin.stat:
+    path: "/etc/apimon/apimon_executor.yaml"
+  register: apimon_config
+
+- name: Check secure config
+  ansible.builtin.stat:
+    path: "/etc/apimon/apimon_secure.yaml"
+  register: apimon_secure_config
+
+- assert:
+    that:
+      - apimon_config.stat.exists
+      - apimon_secure_config.stat.exists

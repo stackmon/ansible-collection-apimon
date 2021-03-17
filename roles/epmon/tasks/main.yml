@@ -85,7 +85,6 @@
 
 - name: Write epmon secure config
   become: true
-  become_user: "{{ epmon_os_user }}"
   ansible.builtin.copy:
     content: "{{ epmon_secure_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ epmon_config_dir }}/{{ epmon_secure_config_file_name }}"

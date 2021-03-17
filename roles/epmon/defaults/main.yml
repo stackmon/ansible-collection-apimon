@@ -11,10 +11,10 @@ epmon_systemd_service_name: "apimon-epmon.service"
 epmon_systemd_unit_path: "{{ ('/etc/systemd/system/'+ epmon_systemd_service_name) }}"
 epmon_image: "quay.io/opentelekomcloud/apimon"
 epmon_config_dir: "/etc/apimon"
-epmon_config_file_name: "apimon.yaml"
-epmon_secure_config_file_name: "apimon_secure.yaml"
-epmon_config:
-epmon_secure_config:
+epmon_config_file_name: "apimon-epmon.yaml"
+epmon_secure_config_file_name: "apimon-epmon-secure.yaml"
+# epmon_config:
+# epmon_secure_config:
 epmon_container_name: "apimon_epmon"
 
 container_command: "podman"

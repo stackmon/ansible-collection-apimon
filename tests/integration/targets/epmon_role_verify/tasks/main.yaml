@@ -3,12 +3,12 @@
 
 - name: Check main config
   ansible.builtin.stat:
-    path: "/etc/apimon/apimon.yaml"
+    path: "/etc/apimon/apimon-epmon.yaml"
   register: apimon_config
 
 - name: Check secure config
   ansible.builtin.stat:
-    path: "/etc/apimon/apimon_secure.yaml"
+    path: "/etc/apimon/apimon-epmon-secure.yaml"
   register: apimon_secure_config
 
 - assert:

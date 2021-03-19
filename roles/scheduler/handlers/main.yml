@@ -1,6 +1,6 @@
 ---
 # handlers file for scheduler
-- name: restart scheduler
+- name: Restart scheduler
   become: true
   systemd:
     name: "{{ scheduler_systemd_service_name }}"

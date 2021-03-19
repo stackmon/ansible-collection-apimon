@@ -78,7 +78,7 @@
   become: true
   become_user: "{{ scheduler_os_user }}"
   ansible.builtin.copy:
-    content: "{{ scheduler_config }}"
+    content: "{{ scheduler_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_config_file_name }}"
     group: "{{ scheduler_os_group }}"
     owner: "{{ scheduler_os_user }}"
@@ -91,7 +91,7 @@
   become: true
   become_user: "{{ scheduler_os_user }}"
   ansible.builtin.copy:
-    content: "{{ scheduler_secure_config }}"
+    content: "{{ scheduler_secure_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_secure_config_file_name }}"
     group: "{{ scheduler_os_group }}"
     owner: "{{ scheduler_os_user }}"

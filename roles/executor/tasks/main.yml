@@ -80,7 +80,7 @@
   become: true
   become_user: "{{ executor_os_user }}"
   ansible.builtin.copy:
-    content: "{{ executor_config }}"
+    content: "{{ executor_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ executor_config_dir }}/{{ executor_config_file_name }}"
     group: "{{ executor_os_group }}"
     owner: "{{ executor_os_user }}"
@@ -93,7 +93,7 @@
   become: true
   become_user: "{{ executor_os_user }}"
   ansible.builtin.copy:
-    content: "{{ executor_secure_config }}"
+    content: "{{ executor_secure_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ executor_config_dir }}/{{ executor_secure_config_file_name }}"
     group: "{{ executor_os_group }}"
     owner: "{{ executor_os_user }}"

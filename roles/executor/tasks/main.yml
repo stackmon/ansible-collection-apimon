@@ -49,10 +49,11 @@
     state: "directory"
     owner: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
+    mode: "{{ item.mode | default(omit) }}"
     recurse: true
   loop:
     - {dest: "{{ executor_config_dir }}"}
-    - {dest: "/var/lib/apimon"}
+    - {dest: "/var/lib/apimon/executor", mode: "0777"}
     # For home inside of container
     - {dest: "/home/{{ executor_os_user }}/tmp"}
     # As /tmp

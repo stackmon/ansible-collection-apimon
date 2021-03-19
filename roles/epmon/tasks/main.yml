@@ -79,7 +79,7 @@
     group: "{{ epmon_os_group }}"
     owner: "{{ epmon_os_user }}"
   when:
-    - epmon_config is defined and epmon_config | length > 0
+    - "epmon_config is defined and epmon_config|length"
   notify:
     - Restart epmon
 
@@ -91,6 +91,6 @@
     group: "{{ epmon_os_group }}"
     owner: "{{ epmon_os_user }}"
   when:
-    - epmon_secure_config is defined and epmon_secure_config | length > 0
+    - "epmon_secure_config is defined and epmon_secure_config|length"
   notify:
     - Restart epmon

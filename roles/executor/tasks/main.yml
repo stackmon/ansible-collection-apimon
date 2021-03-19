@@ -79,21 +79,25 @@
 - name: Write executor config
   become: true
   become_user: "{{ executor_os_user }}"
-  ansible.builtin.template:
-    src: "apimon.yaml.j2"
+  ansible.builtin.copy:
+    content: "{{ executor_config }}"
     dest: "{{ executor_config_dir }}/{{ executor_config_file_name }}"
+    group: "{{ executor_os_group }}"
+    owner: "{{ executor_os_user }}"
   when:
-    - executor_config is defined and executor_config | length > 0
+    - "executor_config is defined and executor_config|length"
   notify:
     - Restart executor
 
 - name: Write executor secure config
   become: true
   become_user: "{{ executor_os_user }}"
-  ansible.builtin.template:
-    src: "apimon_secure.yaml.j2"
+  ansible.builtin.copy:
+    content: "{{ executor_secure_config }}"
     dest: "{{ executor_config_dir }}/{{ executor_secure_config_file_name }}"
+    group: "{{ executor_os_group }}"
+    owner: "{{ executor_os_user }}"
   when:
-    - executor_secure_config is defined and executor_secure_config | length > 0
+    - "executor_secure_config is defined and executor_secure_config|length"
   notify:
     - Restart executor

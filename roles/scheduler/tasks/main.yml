@@ -77,21 +77,25 @@
 - name: Write scheduler config
   become: true
   become_user: "{{ scheduler_os_user }}"
-  ansible.builtin.template:
-    src: "apimon.yaml.j2"
+  ansible.builtin.copy:
+    content: "{{ scheduler_config }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_config_file_name }}"
+    group: "{{ scheduler_os_group }}"
+    owner: "{{ scheduler_os_user }}"
   when:
-    - scheduler_config is defined and scheduler_config | length > 0
+    - "scheduler_config is defined and scheduler_config|length"
   notify:
     - Restart scheduler
 
 - name: Write scheduler secure config
   become: true
   become_user: "{{ scheduler_os_user }}"
-  ansible.builtin.template:
-    src: "apimon_secure.yaml.j2"
+  ansible.builtin.copy:
+    content: "{{ scheduler_secure_config }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_secure_config_file_name }}"
+    group: "{{ scheduler_os_group }}"
+    owner: "{{ scheduler_os_user }}"
   when:
-    - scheduler_secure_config is defined and scheduler_secure_config | length > 0
+    - "scheduler_secure_config is defined and scheduler_secure_config|length"
   notify:
     - Restart scheduler

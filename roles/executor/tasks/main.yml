@@ -55,7 +55,7 @@
     - {dest: "{{ executor_config_dir }}"}
     - {dest: "/var/lib/apimon/executor", mode: "0777"}
     # For home inside of container
-    - {dest: "/home/{{ executor_os_user }}/tmp"}
+    - {dest: "/home/{{ executor_os_user }}/tmp", mode: "0777"}
     # As /tmp
     - {dest: "/tmp/apimon"}
 

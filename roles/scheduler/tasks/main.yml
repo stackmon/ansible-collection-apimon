@@ -80,7 +80,6 @@
 
 - name: Write scheduler config
   become: true
-  become_user: "{{ scheduler_os_user }}"
   ansible.builtin.copy:
     content: "{{ scheduler_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_config_file_name }}"
@@ -93,7 +92,6 @@
 
 - name: Write scheduler secure config
   become: true
-  become_user: "{{ scheduler_os_user }}"
   ansible.builtin.copy:
     content: "{{ scheduler_secure_config | to_nice_yaml(indent=2, width=79) }}"
     dest: "{{ scheduler_config_dir }}/{{ scheduler_secure_config_file_name }}"

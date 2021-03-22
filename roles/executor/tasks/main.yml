@@ -57,7 +57,7 @@
     # For home inside of container
     - {dest: "/home/{{ executor_os_user }}/tmp", mode: "0777"}
     # As /tmp
-    - {dest: "/tmp/apimon"}
+    - {dest: "/tmp/apimon", mode: "0777"}
 
 - name: Write env
   become: true

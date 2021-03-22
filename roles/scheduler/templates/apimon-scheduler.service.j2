@@ -18,7 +18,7 @@ ExecStart={{ container_runtime }} run \
   --name "{{ scheduler_container_name }}" \
   --network host \
   -v {{ scheduler_config_dir }}:/etc/apimon:ro \
-  -v /var/lib/apimon:/var/lib/apimon:rw,Z \
+  -v apimon_scheduler_lib:/var/lib/apimon:rw,Z \
   ${SCHEDULER_IMAGE} scheduler --config {{ scheduler_config_dir}}/{{ scheduler_config_file_name }}
 
 ExecReload={{ container_runtime }} kill -s SIGHUP {{ scheduler_container_name }}

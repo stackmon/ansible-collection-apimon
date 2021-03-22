@@ -19,10 +19,9 @@ ExecStart={{ container_runtime }} run \
   # important for the heartbeats
   --hostname={{ ansible_hostname }} \
   -v {{ executor_config_dir }}:/etc/apimon:ro \
-  -v /var/lib/apimon:/var/lib/apimon:rw,Z \
-  # We need more space in tmp than we want to keep in ram
-  -v /tmp/apimon:/tmp:rw,Z \
-  -v /home/{{ executor_os_user }}/tmp:/home/apimon:rw,z \
+  -v apimon_executor_lib:/var/lib/apimon:rw,Z \
+  -v apimon_executor_home:/home/apimon:rw,Z \
+  --tmpfs /tmp:rw,Z \
   ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
 
 ExecReload={{ container_runtime }} kill -s SIGHUP {{ executor_container_name }}

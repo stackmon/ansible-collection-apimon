@@ -54,10 +54,6 @@
     mode: "{{ item.mode | default(omit) }}"
     recurse: true
   loop:
-    # Since container runs as different user depending on the OS we have 
-    # tottally different os user and are not able to easily grant proper
-    # permissions
-    - {dest: "/var/lib/apimon/scheduler", mode: "0777"}
     - {dest: "{{ scheduler_config_dir }}"}
 
 - name: Write env

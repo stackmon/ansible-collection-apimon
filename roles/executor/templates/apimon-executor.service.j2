@@ -21,7 +21,7 @@ ExecStart={{ container_runtime }} run \
   -v {{ executor_config_dir }}:/etc/apimon:ro \
   -v apimon_executor_lib:/var/lib/apimon:rw,Z \
   -v apimon_executor_home:/home/apimon:rw,Z \
-  --tmpfs /tmp:rw,Z \
+  --tmpfs /tmp:rw \
   ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
 
 ExecReload={{ container_runtime }} kill -s SIGHUP {{ executor_container_name }}

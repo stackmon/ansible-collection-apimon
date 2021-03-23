@@ -54,23 +54,27 @@
     mode: "{{ item.mode | default(omit) }}"
     recurse: true
   loop:
-    - {dest: "{{ scheduler_config_dir }}"}
+    - {dest: "{{ scheduler_config_dir }}", mode: "0775"}
 
 - name: Write env
   become: true
-  become_user: "{{ scheduler_os_user }}"
   ansible.builtin.template:
     src: "env_scheduler"
     dest: "{{ scheduler_config_dir }}/env_scheduler"
+    group: "{{ scheduler_os_group }}"
+    owner: "{{ scheduler_os_user }}"
+    mode: "0644"
   notify:
     - Restart scheduler
 
 - name: Write logging.conf
   become: true
-  become_user: "{{ scheduler_os_user }}"
   ansible.builtin.template:
     src: "logging.conf"
     dest: "{{ scheduler_config_dir }}/logging.conf"
+    group: "{{ scheduler_os_group }}"
+    owner: "{{ scheduler_os_user }}"
+    mode: "0644"
   notify:
     - Restart scheduler
 
@@ -81,6 +85,7 @@
     dest: "{{ scheduler_config_dir }}/{{ scheduler_config_file_name }}"
     group: "{{ scheduler_os_group }}"
     owner: "{{ scheduler_os_user }}"
+    mode: "0644"
   when:
     - "scheduler_config is defined and scheduler_config|length"
   notify:
@@ -93,6 +98,7 @@
     dest: "{{ scheduler_config_dir }}/{{ scheduler_secure_config_file_name }}"
     group: "{{ scheduler_os_group }}"
     owner: "{{ scheduler_os_user }}"
+    mode: "0644"
   when:
     - "scheduler_secure_config is defined and scheduler_secure_config|length"
   notify:

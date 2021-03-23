@@ -46,28 +46,32 @@
   become: true
   ansible.builtin.file:
     dest: "{{ item.dest }}"
-    state: directory
+    state: "directory"
     owner: "{{ epmon_os_user }}"
     group: "{{ epmon_os_group }}"
     recurse: true
   loop:
-    - {dest: "{{ epmon_config_dir }}"}
+    - {dest: "{{ epmon_config_dir }}", mode: "0775"}
 
 - name: Write env
   become: true
-  become_user: "{{ epmon_os_user }}"
   ansible.builtin.template:
     src: "env_epmon"
     dest: "{{ epmon_config_dir }}/env_epmon"
+    owner: "{{ epmon_os_user }}"
+    group: "{{ epmon_os_group }}"
+    mode: "0644"
   notify:
     - Restart epmon
 
 - name: Write logging.conf
   become: true
-  become_user: "{{ epmon_os_user }}"
   ansible.builtin.template:
     src: logging.conf
     dest: "{{ epmon_config_dir }}/logging.conf"
+    owner: "{{ epmon_os_user }}"
+    group: "{{ epmon_os_group }}"
+    mode: "0644"
   notify:
     - Restart epmon
 
@@ -78,6 +82,7 @@
     dest: "{{ epmon_config_dir }}/{{ epmon_config_file_name }}"
     group: "{{ epmon_os_group }}"
     owner: "{{ epmon_os_user }}"
+    mode: "0644"
   when:
     - "epmon_config is defined and epmon_config|length"
   notify:
@@ -90,6 +95,7 @@
     dest: "{{ epmon_config_dir }}/{{ epmon_secure_config_file_name }}"
     group: "{{ epmon_os_group }}"
     owner: "{{ epmon_os_user }}"
+    mode: "0644"
   when:
     - "epmon_secure_config is defined and epmon_secure_config|length"
   notify:

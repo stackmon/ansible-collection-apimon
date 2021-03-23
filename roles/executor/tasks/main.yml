@@ -52,23 +52,27 @@
     mode: "{{ item.mode | default(omit) }}"
     recurse: true
   loop:
-    - {dest: "{{ executor_config_dir }}"}
+    - {dest: "{{ executor_config_dir }}", mode: "0775"}
 
 - name: Write env
   become: true
-  become_user: "{{ executor_os_user }}"
   ansible.builtin.template:
     src: "env_executor"
     dest: "{{ executor_config_dir }}/env_executor"
+    owner: "{{ executor_os_user }}"
+    group: "{{ executor_os_group }}"
+    mode: "0644"
   notify:
     - Restart executor
 
 - name: Write logging.conf
   become: true
-  become_user: "{{ executor_os_user }}"
   ansible.builtin.template:
     src: "logging.conf"
     dest: "{{ executor_config_dir }}/logging.conf"
+    owner: "{{ executor_os_user }}"
+    group: "{{ executor_os_group }}"
+    mode: "0644"
   notify:
     - Restart executor
 
@@ -79,6 +83,7 @@
     dest: "{{ executor_config_dir }}/{{ executor_config_file_name }}"
     group: "{{ executor_os_group }}"
     owner: "{{ executor_os_user }}"
+    mode: "0644"
   when:
     - "executor_config is defined and executor_config|length"
   notify:
@@ -91,6 +96,7 @@
     dest: "{{ executor_config_dir }}/{{ executor_secure_config_file_name }}"
     group: "{{ executor_os_group }}"
     owner: "{{ executor_os_user }}"
+    mode: "0644"
   when:
     - "executor_secure_config is defined and executor_secure_config|length"
   notify:

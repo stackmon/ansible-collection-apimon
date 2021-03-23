@@ -16,7 +16,6 @@ ExecStartPre=-{{ container_runtime }} rm "{{ executor_container_name }}"
 
 ExecStart={{ container_runtime }} run \
   --name "{{ executor_container_name }}" \
-  # important for the heartbeats
   --hostname={{ ansible_hostname }} \
   -v {{ executor_config_dir }}:/etc/apimon:ro \
   -v apimon_executor_lib:/var/lib/apimon:rw,Z \

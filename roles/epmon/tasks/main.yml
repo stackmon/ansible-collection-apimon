@@ -49,7 +49,6 @@
     state: "directory"
     owner: "{{ epmon_os_user }}"
     group: "{{ epmon_os_group }}"
-    recurse: true
   loop:
     - {dest: "{{ epmon_config_dir }}", mode: "0775"}
 

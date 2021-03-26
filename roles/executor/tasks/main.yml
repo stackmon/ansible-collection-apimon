@@ -50,7 +50,6 @@
     owner: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
     mode: "{{ item.mode | default(omit) }}"
-    recurse: true
   loop:
     - {dest: "{{ executor_config_dir }}", mode: "0775"}
 

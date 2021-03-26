@@ -52,7 +52,6 @@
     owner: "{{ scheduler_os_user }}"
     group: "{{ scheduler_os_group }}"
     mode: "{{ item.mode | default(omit) }}"
-    recurse: true
   loop:
     - {dest: "{{ scheduler_config_dir }}", mode: "0775"}
 

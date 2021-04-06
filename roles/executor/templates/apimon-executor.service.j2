@@ -3,7 +3,6 @@ Description=Apimon Executor container
 Wants=syslog.service
 
 [Service]
-Type=simple
 Restart=always
 TimeoutSec=600s
 User={{ executor_os_user }}
@@ -24,8 +23,9 @@ ExecStart={{ container_runtime }} run \
   ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
 # stevedore wants to cache entrypoints, but ansible has temp runtime
 # that cause overflow in ~/.cache/entry-points
-ExecStartPost={{ container_runtime }} \
-  exec --name "{{ executor_container_name }}" \
+ExecStartPort=/bin/sleep 10
+ExecStartPost=-{{ container_runtime }} exec \
+  "{{ executor_container_name }}" \
   touch /home/apimon/.cache/python-entrypoints/.disable
 
 ExecReload={{ container_runtime }} kill -s SIGHUP {{ executor_container_name }}

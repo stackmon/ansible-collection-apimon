@@ -23,7 +23,7 @@ ExecStart={{ container_runtime }} run \
   ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
 # stevedore wants to cache entrypoints, but ansible has temp runtime
 # that cause overflow in ~/.cache/entry-points
-ExecStartPort=/bin/sleep 10
+ExecStartPost=/bin/sleep 10
 ExecStartPost=-{{ container_runtime }} exec \
   "{{ executor_container_name }}" \
   touch /home/apimon/.cache/python-entrypoints/.disable

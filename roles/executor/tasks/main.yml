@@ -32,6 +32,7 @@
   ansible.builtin.user:
     name: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
+    groups: "{{ (container_command == 'docker') | ternary('docker', '', omit) }}"
     state: present
 
 - name: Write Executor SystemD unit file

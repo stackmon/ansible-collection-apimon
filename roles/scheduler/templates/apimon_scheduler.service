@@ -16,6 +16,7 @@ ExecStartPre=-/usr/bin/podman rm "apimon_scheduler"
 
 ExecStart=/usr/bin/podman run \
   --name "apimon_scheduler" \
+  --log-opt=path=/dev/null \
   -v {{ scheduler_config_dir }}:/etc/apimon:ro \
   -v /var/lib/apimon:/var/lib/apimon:rw,Z \
   --tmpfs /var/log/apimon,size=787448k \

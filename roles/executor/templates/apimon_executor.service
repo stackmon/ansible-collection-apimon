@@ -18,6 +18,7 @@ ExecStart=/usr/bin/podman run \
   --name "apimon_executor" \
   --add-host=telegraf:{{ ansible_default_ipv4.address }} \
   --hostname={{ ansible_hostname }} \
+  --log-opt=path=/dev/null \
   -v {{ executor_config_dir }}:/etc/apimon:ro \
   -v /var/lib/apimon:/var/lib/apimon:rw,Z \
   --tmpfs /tmp:rw,size=787448k \

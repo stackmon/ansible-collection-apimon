@@ -16,7 +16,9 @@ ExecStartPre=-{{ container_runtime }} rm "{{ executor_container_name }}"
 ExecStart={{ container_runtime }} run \
   --name "{{ executor_container_name }}" \
   --hostname={{ ansible_hostname }} \
+{% if container_command == 'podman' %}
   --log-opt=path=/dev/null \
+{% endif %}
   -v {{ executor_config_dir }}:/etc/apimon:ro \
   -v apimon_executor_lib:/var/lib/apimon:rw,Z \
   -v apimon_executor_home:/home/apimon:rw,Z \

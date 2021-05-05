@@ -17,6 +17,7 @@ ExecStartPre=-{{ container_runtime }} pull ${EPMON_IMAGE}
 
 ExecStart={{ container_runtime }} run \
   --name "{{ epmon_container_name }}" \
+  --log-opt=path=/dev/null \
   -v {{ epmon_config_dir }}:/etc/apimon:ro \
   ${EPMON_IMAGE} epmon --config {{ epmon_config_dir}}/{{ epmon_config_file_name }}
 

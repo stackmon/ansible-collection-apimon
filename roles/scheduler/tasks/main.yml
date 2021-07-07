@@ -34,7 +34,8 @@
   ansible.builtin.user:
     name: "{{ scheduler_os_user }}"
     group: "{{ scheduler_os_group }}"
-    state: present
+    groups: "{{ (container_command == 'docker') | ternary('docker', '', omit) }}"
+    state: "present"
 
 - name: Write Scheduler SystemD unit file
   become: true
@@ -48,12 +49,12 @@
   become: true
   ansible.builtin.file:
     dest: "{{ item.dest }}"
-    state: directory
+    state: "directory"
     owner: "{{ scheduler_os_user }}"
     group: "{{ scheduler_os_group }}"
     mode: "{{ item.mode | default(omit) }}"
   loop:
-    - {dest: "{{ scheduler_config_dir }}", mode: "0775"}
+    - {dest: "{{ scheduler_config_dir }}", mode: "0755"}
 
 - name: Write env
   become: true

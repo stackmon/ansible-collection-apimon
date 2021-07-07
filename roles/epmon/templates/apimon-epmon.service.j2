@@ -11,9 +11,8 @@ Group={{ epmon_os_group }}
 EnvironmentFile=/etc/apimon/env_epmon
 
 ExecStartPre=-{{ container_runtime }} system migrate
-ExecStartPre=-{{ container_runtime }} system migrate
-ExecStartPre=-{{ container_runtime }} rm {{ epmon_container_name }}
 ExecStartPre=-{{ container_runtime }} pull ${EPMON_IMAGE}
+ExecStartPre=-{{ container_runtime }} rm {{ epmon_container_name }}
 
 ExecStart={{ container_runtime }} run \
   --name "{{ epmon_container_name }}" \

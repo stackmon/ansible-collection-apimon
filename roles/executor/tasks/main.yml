@@ -33,7 +33,7 @@
     name: "{{ executor_os_user }}"
     group: "{{ executor_os_group }}"
     groups: "{{ (container_command == 'docker') | ternary('docker', '', omit) }}"
-    state: present
+    state: "present"
 
 - name: Write Executor SystemD unit file
   become: true
@@ -52,7 +52,7 @@
     group: "{{ executor_os_group }}"
     mode: "{{ item.mode | default(omit) }}"
   loop:
-    - {dest: "{{ executor_config_dir }}", mode: "0775"}
+    - {dest: "{{ executor_config_dir }}", mode: "0755"}
 
 - name: Write env
   become: true

@@ -32,6 +32,7 @@
   ansible.builtin.user:
     name: "{{ epmon_os_user }}"
     group: "{{ epmon_os_group }}"
+    groups: "{{ (container_command == 'docker') | ternary('docker', '', omit) }}"
     state: "present"
 
 - name: Write epmon SystemD unit file
@@ -50,7 +51,7 @@
     owner: "{{ epmon_os_user }}"
     group: "{{ epmon_os_group }}"
   loop:
-    - {dest: "{{ epmon_config_dir }}", mode: "0775"}
+    - {dest: "{{ epmon_config_dir }}", mode: "0755"}
 
 - name: Write env
   become: true

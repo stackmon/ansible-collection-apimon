@@ -50,6 +50,7 @@
     state: "directory"
     owner: "{{ epmon_os_user }}"
     group: "{{ epmon_os_group }}"
+    mode: "{{ item.mode | default(omit) }}"
   loop:
     - {dest: "{{ epmon_config_dir }}", mode: "0755"}
 

@@ -5,7 +5,7 @@ Wants=syslog.service
 [Service]
 Type=simple
 Restart=always
-TimeoutSec=30s
+TimeoutSec=90s
 User={{ epmon_os_user }}
 Group={{ epmon_os_group }}
 EnvironmentFile=/etc/apimon/env_epmon

@@ -85,7 +85,7 @@
     owner: "{{ epmon_os_user }}"
     mode: "0644"
   when:
-    - "epmon_config is defined and epmon_config|length"
+    - "epmon_config is defined"
   notify:
     - Restart epmon
 
@@ -98,6 +98,6 @@
     owner: "{{ epmon_os_user }}"
     mode: "0644"
   when:
-    - "epmon_secure_config is defined and epmon_secure_config|length"
+    - "epmon_secure_config is defined"
   notify:
     - Restart epmon

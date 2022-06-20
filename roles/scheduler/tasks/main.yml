@@ -87,7 +87,7 @@
     owner: "{{ scheduler_os_user }}"
     mode: "0644"
   when:
-    - "scheduler_config is defined and scheduler_config|length"
+    - "scheduler_config is defined"
   notify:
     - Restart scheduler
 
@@ -100,6 +100,6 @@
     owner: "{{ scheduler_os_user }}"
     mode: "0644"
   when:
-    - "scheduler_secure_config is defined and scheduler_secure_config|length"
+    - "scheduler_secure_config is defined"
   notify:
     - Restart scheduler

@@ -24,12 +24,6 @@ ExecStart={{ container_runtime }} run \
   -v apimon_executor_home:/home/apimon:rw,Z \
   --tmpfs /tmp:rw \
   ${EXECUTOR_IMAGE} executor --config {{ executor_config_dir}}/{{ executor_config_file_name }}
-# stevedore wants to cache entrypoints, but ansible has temp runtime
-# that cause overflow in ~/.cache/entry-points
-ExecStartPost=/bin/sleep 10
-ExecStartPost=-{{ container_runtime }} exec \
-  "{{ executor_container_name }}" \
-  touch /home/apimon/.cache/python-entrypoints/.disable
 
 ExecReload={{ container_runtime }} kill -s SIGHUP {{ executor_container_name }}
 
@@ -37,4 +31,3 @@ ExecStop={{ container_runtime }} stop -t 10 {{ executor_container_name }}
 
 [Install]
 WantedBy=multi-user.target
-

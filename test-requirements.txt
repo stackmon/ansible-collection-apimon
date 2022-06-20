@@ -1,4 +1,4 @@
-ansible-base
+ansible-core
 pbr
 pycodestyle==2.6.0
 flake8==3.8.4

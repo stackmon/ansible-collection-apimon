@@ -85,7 +85,7 @@
     owner: "{{ executor_os_user }}"
     mode: "0644"
   when:
-    - "executor_config is defined and executor_config|length"
+    - "executor_config is defined"
   notify:
     - Restart executor
 
@@ -98,6 +98,6 @@
     owner: "{{ executor_os_user }}"
     mode: "0644"
   when:
-    - "executor_secure_config is defined and executor_secure_config|length"
+    - "executor_secure_config is defined"
   notify:
     - Restart executor

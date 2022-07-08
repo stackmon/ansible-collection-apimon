@@ -16,6 +16,7 @@ ExecStartPre=-{{ container_runtime }} rm "{{ executor_container_name }}"
 ExecStart={{ container_runtime }} run \
   --name "{{ executor_container_name }}" \
   --hostname={{ ansible_hostname }} \
+  --network host \
 {% if container_command == 'podman' %}
   --log-opt=path=/dev/null \
 {% endif %}
